@@ -1,14 +1,12 @@
 <template>
   <div class="page">
     <nav class="navbar_custom">
-      <a href="#home" class="navbar_title">Liew Kai Le</a>
+      <a href="#home" class="navbar_title">Linus Liew</a>
       <div class="navbar_section">
         <a href="#home" class="home active">Home</a>
         <a href="#about" class="about">About</a>
         <a href="#services" class="services">Services</a>
         <a href="#workExperience" class="workExperience">Work Experience</a>
-        <a href="#portfolio" class="portfolio">Portfolio</a>
-        <a href="#rating" class="rating">Rating</a>
         <a href="#contact" class="contact">Contact</a>
       </div>
     </nav>
@@ -49,9 +47,37 @@
       </section>
       <section id="services">
         <h1 class="title">Services</h1>
+        <div class="card_grid">
+          <div class="card reveal" v-for="service in services" :key="service.title">
+            <h2 class="card_title">{{ service.title }}</h2>
+            <p class="card_text">{{ service.description }}</p>
+          </div>
+        </div>
       </section>
       <section id="workExperience">
         <h1 class="title">Work Experience</h1>
+        <div class="timeline">
+          <div class="timeline_item reveal" v-for="job in workExperience" :key="job.company + job.period">
+            <p class="timeline_period">{{ job.period }}</p>
+            <h2 class="timeline_role">{{ job.role }}</h2>
+            <p class="timeline_company">{{ job.company }}</p>
+            <ul class="timeline_points">
+              <li v-for="point in job.points" :key="point">{{ point }}</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+      <section id="contact">
+        <h1 class="title">Contact</h1>
+        <p class="contact_intro reveal">
+          Have a project in mind? Reach out through any of the channels below and I'll get back to you as soon as possible.
+        </p>
+        <div class="card_grid">
+          <a class="card contact_card reveal" v-for="contact in contacts" :key="contact.label" :href="contact.href" target="_blank" rel="noopener">
+            <h2 class="card_title">{{ contact.label }}</h2>
+            <p class="card_text">{{ contact.value }}</p>
+          </a>
+        </div>
       </section>
     </div>
   </div>
@@ -67,10 +93,56 @@ export default {
       messages: ["PHP developer","Vue developer","Python developer"],
       rank: 0,
       currentHath: "",
+      services: [
+        {
+          title: "Web Development",
+          description: "Responsive websites and web apps built with Vue, from landing pages to full single-page applications.",
+        },
+        {
+          title: "Backend & APIs",
+          description: "REST APIs and server-side logic in Python and PHP, including database design and third-party integrations.",
+        },
+        {
+          title: "Automation & Scripting",
+          description: "Python scripts that automate repetitive tasks, scrape and process data, or glue your tools together.",
+        },
+        {
+          title: "Maintenance & Bug Fixes",
+          description: "Fixing bugs, improving performance and adding features to your existing Python, PHP or Vue codebase.",
+        },
+      ],
+      // TODO: replace with your real work history (most recent first)
+      workExperience: [
+        {
+          period: "20XX - Present",
+          role: "Freelance Developer",
+          company: "Upwork",
+          points: [
+            "Describe the kind of projects you deliver for clients",
+            "Highlight a result you are proud of",
+          ],
+        },
+        {
+          period: "20XX - 20XX",
+          role: "Job title",
+          company: "Company name",
+          points: [
+            "What you built or were responsible for",
+            "Technologies you used (e.g. Python, PHP, Vue)",
+          ],
+        },
+      ],
+      // TODO: replace with your real contact details
+      contacts: [
+        { label: "Email", value: "your.email@example.com", href: "mailto:your.email@example.com" },
+        { label: "Upwork", value: "Hire me on Upwork", href: "https://www.upwork.com/freelancers/YOUR_PROFILE" },
+        { label: "LinkedIn", value: "linkedin.com/in/YOUR_PROFILE", href: "https://www.linkedin.com/in/YOUR_PROFILE" },
+        { label: "GitHub", value: "github.com/YOUR_USERNAME", href: "https://github.com/YOUR_USERNAME" },
+      ],
     };
   },
   created() {
-    document.title = "Liew Kai Le";
+    document.title = "Linus Liew";
   },
   mounted() {
     this.reveal();
@@ -389,6 +461,108 @@ section#workExperience {
   background: #598BAf;
 }
 
+section#contact {
+  background: #ECE090;
+}
+
+section#services, section#workExperience, section#contact {
+  height: auto;
+  min-height: calc(100vh - 200px);
+  padding-bottom: 80px;
+}
+
+.card_grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 30px;
+  margin-top: 30px;
+}
+
+.card {
+  display: block;
+  padding: 30px;
+  background: rgba(255, 255, 255, 0.4);
+  border: 3px solid #000;
+  border-radius: 16px;
+  box-shadow: 6px 6px 0 #000;
+  color: #000;
+  text-decoration: none;
+}
+
+.card_title {
+  font-size: 28px;
+  margin-bottom: 12px;
+}
+
+.card_text {
+  font-size: 20px;
+  line-height: 1.4;
+}
+
+.contact_card {
+  transition: transform 1.5s ease, opacity 1.5s ease, box-shadow 200ms ease;
+}
+
+.contact_card:hover {
+  box-shadow: 10px 10px 0 #000;
+}
+
+.contact_card .card_text {
+  word-break: break-word;
+}
+
+.contact_intro {
+  font-size: 30px;
+  margin-top: 20px;
+  max-width: 900px;
+}
+
+.timeline {
+  margin-top: 30px;
+  border-left: 4px solid #000;
+  padding-left: 30px;
+}
+
+.timeline_item {
+  position: relative;
+  margin-bottom: 50px;
+}
+
+.timeline_item::before {
+  content: "";
+  position: absolute;
+  left: -43px;
+  top: 6px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #FAF2DF;
+  border: 4px solid #000;
+}
+
+.timeline_period {
+  font-size: 20px;
+  color: #FAF2DF;
+}
+
+.timeline_role {
+  font-size: 34px;
+  margin-top: 6px;
+}
+
+.timeline_company {
+  font-size: 24px;
+  text-decoration: underline;
+  margin-top: 4px;
+}
+
+.timeline_points {
+  margin-top: 12px;
+  padding-left: 24px;
+  font-size: 20px;
+  line-height: 1.5;
+}
+
 @media only screen and (max-width: 499px) {
   section {
     width: 100vw;
@@ -445,6 +619,14 @@ section#workExperience {
 
   .about_description {
     font-size: 20px;
+  }
+
+  .card_title, .timeline_role {
+    font-size: 24px;
+  }
+
+  .card_text, .timeline_points, .contact_intro {
+    font-size: 18px;
   }
 
 }
