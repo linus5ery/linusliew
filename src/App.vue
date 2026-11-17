@@ -83,7 +83,16 @@
               <li>Hints show the language and how to say it</li>
               <li>Track your streak as you learn</li>
             </ul>
-            <p class="built-with">Android · Testing on Google Play</p>
+            <p class="built-with">Android · Kotlin</p>
+            <a class="play-badge" href="https://play.google.com/store/apps/details?id=com.linusliew.gtw" target="_blank" rel="noopener" aria-label="Available on Google Play">
+              <svg viewBox="0 0 24 25" aria-hidden="true">
+                <path fill="#00a0ff" d="M1.2.6 13.1 12.5 1.2 24.4c-.3-.3-.4-.7-.4-1.2V1.8c0-.5.1-.9.4-1.2Z" />
+                <path fill="#00f076" d="M1.2.6c.5-.5 1.2-.5 2-.1l14 7.9-4.1 4.1Z" />
+                <path fill="#ff3a44" d="m1.2 24.4 11.9-11.9 4.1 4.1-14 7.9c-.8.4-1.5.4-2-.1Z" />
+                <path fill="#ffd500" d="m17.2 8.4 4.7 2.7c1.3.7 1.3 2.1 0 2.8l-4.7 2.7-4.1-4.1Z" />
+              </svg>
+              <span><small>Available on</small><b>Google Play</b></span>
+            </a>
           </div>
 
           <div class="game">
@@ -709,6 +718,17 @@ section.block { padding-block: 88px; }
 .product-intro h3 { font-family: var(--font-script); font-size: 46px; font-weight: 700; line-height: 1; }
 .product-intro p { margin: 0; color: color-mix(in srgb, var(--lilac) 82%, transparent); }
 .product-intro .built-with { font-size: 14px; letter-spacing: .08em; text-transform: uppercase; font-weight: 600; }
+.play-badge {
+  align-self: flex-start; display: inline-flex; align-items: center; gap: 12px; padding: 9px 20px 9px 14px;
+  background: #000; color: #fff; border: 1px solid #a6a6a6; border-radius: 10px; text-decoration: none;
+  transition: transform .15s, box-shadow .15s;
+}
+.play-badge:hover { transform: translateY(-1px); box-shadow: 0 8px 20px rgba(0,0,0,.3); }
+.play-badge:focus-visible { outline: 2px solid var(--lilac); outline-offset: 3px; }
+.play-badge svg { width: 26px; height: 28px; flex: none; }
+.play-badge span { display: flex; flex-direction: column; line-height: 1.1; }
+.play-badge small { font-size: 11px; letter-spacing: .06em; text-transform: uppercase; }
+.play-badge b { font-family: var(--font-body); font-size: 21px; font-weight: 500; letter-spacing: -.01em; }
 .chips { display: flex; flex-wrap: wrap; gap: 8px; }
 .chip { font-size: 14px; padding: 5px 12px; border-radius: 999px; background: rgba(255,255,255,.14); }
 .feature-list { list-style: none; padding: 0; margin: 4px 0 0; display: grid; gap: 10px; }
