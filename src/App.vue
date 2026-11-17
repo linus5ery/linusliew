@@ -119,6 +119,66 @@
       </div>
     </section>
 
+    <section class="block" id="gbf" style="padding-top:0">
+      <div class="wrap">
+        <div class="head">
+          <span class="eyebrow">Projects</span>
+          <h2>Guess Better Food</h2>
+          <p>An Android food game I built. Two foods appear and you pick the better one: healthier, more delicious or more energy. Try a round right here.</p>
+        </div>
+
+        <div class="product product-food">
+          <div class="product-intro">
+            <img src="./assets/gbf-logo.png" alt="Guess Better Food app icon" />
+            <h3>Guess Better Food</h3>
+            <p>Broccoli or donut? Banana or cucumber? Learn what is on your plate one choice at a time.</p>
+            <div class="chips">
+              <span class="chip" v-for="c in ['Healthy', 'Delicious', 'Energy']" :key="c">{{ c }}</span>
+            </div>
+            <ul class="feature-list">
+              <li>Three modes with hundreds of levels</li>
+              <li>Green is correct and red is wrong</li>
+              <li>Climb the leaderboard and play offline</li>
+            </ul>
+            <p class="built-with">Android · Kotlin</p>
+          </div>
+
+          <div class="game">
+            <div class="game-top">
+              <span class="label">Try it · Round {{ food.round }} of {{ food.deck.length }}</span>
+              <span class="score">Score {{ food.score }} · Streak {{ food.streak }}</span>
+            </div>
+            <template v-if="!food.finished">
+              <div class="card-word">
+                <small>{{ foodQ.mode }} mode</small>
+                <div class="word">{{ MODE_TEXT[foodQ.mode].question }}</div>
+                <div class="hint">{{ food.showHint ? foodQ.hint : '' }}</div>
+              </div>
+              <div class="options food-options">
+                <button v-for="f in foodQ.options" :key="f.name" class="opt food-opt" :class="foodOptClass(f)" :disabled="food.picked !== null" @click="pickFood(f)">
+                  <img :src="f.img" alt="" />
+                  <span>{{ f.name }}</span>
+                </button>
+              </div>
+              <div class="game-foot">
+                <span class="feedback" aria-live="polite">{{ food.feedback }}</span>
+                <button v-if="food.picked === null" class="btn btn-outline-light" @click="food.showHint = true">Show hint</button>
+                <button v-else class="btn btn-light" @click="nextFood">{{ food.round < food.deck.length ? 'Next pair' : 'See result' }}</button>
+              </div>
+            </template>
+            <template v-else>
+              <div class="card-word">
+                <small>Level complete</small>
+                <div class="word">{{ food.score }} / {{ food.deck.length }}</div>
+                <div class="hint">{{ food.score === food.deck.length ? 'Perfect plate. Bravo!' : 'Nice work. Play again to beat it.' }}</div>
+              </div>
+              <div class="game-foot"><span></span><button class="btn btn-light" @click="restartFood">Play again</button></div>
+            </template>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section class="block" id="experience" style="padding-top:0">
       <div class="wrap">
         <div class="head">
@@ -213,6 +273,30 @@ const shuffle = (a) => {
 };
 // Picks 5 random words and shuffles each word's answer options.
 const buildDeck = () => shuffle(WORDS).slice(0, 5).map((w) => ({ ...w, options: shuffle([w.answer, ...w.pool]) }));
+
+// Food pairs for the Guess Better Food demo (images from the gbfandroid app).
+// `better` is the correct pick for the pair's mode.
+const food = (name, file) => ({ name, img: require('./assets/gbf/' + file + '.webp') });
+const MODE_TEXT = {
+  Healthy: { question: 'Which is healthier?', result: 'is healthier than' },
+  Delicious: { question: 'Which is tastier?', result: 'is more delicious than' },
+  Energy: { question: 'Which gives more energy?', result: 'gives more energy than' },
+};
+const FOODS = [
+  { mode: 'Healthy', better: food('Broccoli', 'broccoli'), worse: food('Donut', 'donut'), hint: 'One is full of fibre and vitamin C.' },
+  { mode: 'Healthy', better: food('Apple', 'apple'), worse: food('Cookie', 'cookie'), hint: 'One a day keeps the doctor away.' },
+  { mode: 'Healthy', better: food('Salmon', 'salmon'), worse: food('Bacon', 'bacon'), hint: 'Look for omega-3, not processed fat.' },
+  { mode: 'Healthy', better: food('Yogurt', 'yogurt'), worse: food('Ice cream', 'icecream'), hint: 'Both are dairy, one has far less sugar.' },
+  { mode: 'Healthy', better: food('Oats', 'oatsbowl'), worse: food('Sugar cubes', 'sugarcubes'), hint: 'Whole grains beat empty calories.' },
+  { mode: 'Delicious', better: food('Strawberry', 'strawberry'), worse: food('Lemon', 'lemon'), hint: 'Sweet beats sour on its own.' },
+  { mode: 'Delicious', better: food('Popcorn', 'popcorn'), worse: food('Barley', 'barley'), hint: 'Think movie night snack.' },
+  { mode: 'Energy', better: food('Banana', 'banana'), worse: food('Cucumber', 'cucumber'), hint: 'Athletes love this one mid-race.' },
+  { mode: 'Energy', better: food('Peanut butter', 'peanutbutter'), worse: food('Spinach', 'spinach'), hint: 'Healthy fats pack the most calories.' },
+  { mode: 'Energy', better: food('Pasta', 'pasta'), worse: food('Tomato', 'tomato'), hint: 'Carbs are the body’s quick fuel.' },
+];
+// Picks 5 random pairs and shuffles which side each food shows on.
+const buildFoodDeck = () => shuffle(FOODS).slice(0, 5).map((q) => ({ ...q, options: shuffle([q.better, q.worse]) }));
+const newFoodGame = () => ({ deck: buildFoodDeck(), round: 1, score: 0, streak: 0, picked: null, showHint: false, finished: false, feedback: 'Pick the better food.' });
 
 export default {
   name: 'App',
@@ -332,6 +416,9 @@ export default {
       showHint: false,
       feedback: 'Pick the meaning.',
       finished: false,
+      // Guess Better Food demo state
+      MODE_TEXT,
+      food: newFoodGame(),
       contacts: [
         { label: 'Email', value: 'jlinuskl2@gmail.com', href: 'mailto:jlinuskl2@gmail.com' },
         { label: 'GitHub', value: 'github.com/linus5ery', href: 'https://github.com/linus5ery' },
@@ -343,6 +430,9 @@ export default {
   computed: {
     current() {
       return this.deck[this.round - 1];
+    },
+    foodQ() {
+      return this.food.deck[this.food.round - 1];
     },
   },
   created() {
@@ -385,6 +475,34 @@ export default {
     },
     restart() {
       Object.assign(this, { deck: buildDeck(), round: 1, score: 0, streak: 0, picked: null, showHint: false, finished: false, feedback: 'Pick the meaning.' });
+    },
+    pickFood(f) {
+      const q = this.foodQ;
+      this.food.picked = f;
+      if (f === q.better) {
+        this.food.score++;
+        this.food.streak++;
+        this.food.feedback = 'Correct! ';
+      } else {
+        this.food.streak = 0;
+        this.food.feedback = 'Not quite. ';
+      }
+      this.food.feedback += q.better.name + ' ' + MODE_TEXT[q.mode].result + ' ' + q.worse.name.toLowerCase() + '.';
+    },
+    foodOptClass(f) {
+      if (this.food.picked === null) return '';
+      if (f === this.foodQ.better) return 'right';
+      return f === this.food.picked ? 'wrong' : '';
+    },
+    nextFood() {
+      if (this.food.round >= this.food.deck.length) {
+        this.food.finished = true;
+        return;
+      }
+      Object.assign(this.food, { round: this.food.round + 1, picked: null, showHint: false, feedback: 'Pick the better food.' });
+    },
+    restartFood() {
+      this.food = newFoodGame();
     },
     // Types each role, pauses, deletes it, then moves to the next one.
     startTyping() {
@@ -577,6 +695,15 @@ section.block { padding-block: 88px; }
 .btn-light { background: var(--lilac); color: var(--purple-deep); }
 .btn-outline-light { background: transparent; color: var(--lilac); border-color: rgba(255,255,255,.4); }
 .btn-outline-light:hover { border-color: var(--lilac); }
+
+/* Guess Better Food reuses the product layout with its own orange brand colours */
+.product-food { --purple: #b35200; --purple-deep: #8a3c00; --lilac: #fff1e3; }
+.product-food .card-word { background: #ffdbbb; color: #4a2200; }
+.product-food .card-word small, .product-food .card-word .hint { color: #9a4a10; }
+.product-food .card-word .word { font-size: clamp(32px, 4.6vw, 44px); }
+.food-opt { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 14px; }
+.food-opt img { width: 100%; max-width: 132px; aspect-ratio: 1; border-radius: 12px; display: block; }
+@media (max-width: 420px) { .options.food-options { grid-template-columns: 1fr 1fr; } }
 
 /* Experience */
 .timeline { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
