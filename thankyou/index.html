@@ -12,27 +12,27 @@
     <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
 
     <!--
-      Google Ads conversion tracking.
-      1. In Google Ads: Goals → Conversions → New conversion action → Website → "Purchase".
-      2. Replace AW-XXXXXXXXXX and AW-XXXXXXXXXX/YYYYYYYYYYYY below with your own IDs.
-      3. Set the URL rule in Google Ads to: URL contains "/linusliew/thankyou"
+      Google Analytics 4 purchase tracking (G-YKRGX7R3S6).
+      Sends a GA4 "purchase" event. To count it in Google Ads:
+      1. GA4: Admin → Events → mark "purchase" as a key event.
+      2. Link GA4 to Google Ads: GA4 Admin → Product links → Google Ads links.
+      3. Google Ads: Goals → Conversions → New conversion action → Import → Google Analytics 4 → "purchase".
     -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-XXXXXXXXXX"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YKRGX7R3S6"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-      gtag('config', 'AW-XXXXXXXXXX');
+      gtag('config', 'G-YKRGX7R3S6');
 
       // Optional: pass ?value=49.90&currency=MYR&order=ABC123 in the redirect URL
       // to report the real purchase amount and avoid counting the same order twice.
       (function () {
         var q = new URLSearchParams(location.search);
-        var data = { send_to: 'AW-XXXXXXXXXX/YYYYYYYYYYYY' };
+        var data = { currency: q.get('currency') || 'MYR' };
         if (q.get('value')) data.value = parseFloat(q.get('value'));
-        data.currency = q.get('currency') || 'MYR';
         if (q.get('order')) data.transaction_id = q.get('order');
-        gtag('event', 'conversion', data);
+        gtag('event', 'purchase', data);
       })();
     </script>
 
