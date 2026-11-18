@@ -6,6 +6,14 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="icon" type="image/png" href="<%= BASE_URL %>logo.png">
     <meta name="google-site-verification" content="z_CUvl39Z04x7KaXERa3iPmkd2Z0YfjMgRuhmtkc7Js" />
+    <!-- Google Analytics 4: lets ad clicks that land here be credited when a purchase reaches /thankyou -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YKRGX7R3S6"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-YKRGX7R3S6');
+    </script>
     <title><%= htmlWebpackPlugin.options.title %></title>
   </head>
   <body>
