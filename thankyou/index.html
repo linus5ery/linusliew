@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <!-- Conversion page: keep it out of search results so only real purchases land here -->
+    <meta name="robots" content="noindex, nofollow">
+    <title>Thank You · Linus Liew</title>
+    <link rel="icon" type="image/png" href="../logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!--
+      Google Ads conversion tracking.
+      1. In Google Ads: Goals → Conversions → New conversion action → Website → "Purchase".
+      2. Replace AW-XXXXXXXXXX and AW-XXXXXXXXXX/YYYYYYYYYYYY below with your own IDs.
+      3. Set the URL rule in Google Ads to: URL contains "/linusliew/thankyou"
+    -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-XXXXXXXXXX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'AW-XXXXXXXXXX');
+
+      // Optional: pass ?value=49.90&currency=MYR&order=ABC123 in the redirect URL
+      // to report the real purchase amount and avoid counting the same order twice.
+      (function () {
+        var q = new URLSearchParams(location.search);
+        var data = { send_to: 'AW-XXXXXXXXXX/YYYYYYYYYYYY' };
+        if (q.get('value')) data.value = parseFloat(q.get('value'));
+        data.currency = q.get('currency') || 'MYR';
+        if (q.get('order')) data.transaction_id = q.get('order');
+        gtag('event', 'conversion', data);
+      })();
+    </script>
+
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #1b1f1d; --bg-deep: #141716; --surface: #242a27; --line: #36403b;
+        --fg: #faf2df; --muted: #b9bdb0;
+        --accent: #50c878; --accent-deep: #2f9e5a; --accent-soft: #a6e8bd; --gold: #ece090;
+        --font-display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+        --font-body: "Figtree", "Segoe UI", system-ui, sans-serif;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0; min-height: 100vh; display: flex; flex-direction: column;
+        background: var(--bg); color: var(--fg);
+        font-family: var(--font-body); font-size: 17px; line-height: 1.6;
+      }
+      a { color: inherit; }
+      :focus-visible { outline: 2px solid var(--accent-soft); outline-offset: 3px; border-radius: 6px; }
+      .wrap { max-width: 1120px; margin-inline: auto; padding-inline: 20px; width: 100%; }
+      h1, h2, h3 { font-family: var(--font-display); line-height: 1.05; text-wrap: balance; margin: 0; }
+
+      .nav { border-bottom: 1px solid var(--line); }
+      .nav .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 10px; }
+      .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; font-family: var(--font-display); font-weight: 700; font-size: 20px; }
+      .brand img { width: 44px; height: 44px; border-radius: 10px; object-fit: contain; }
+
+      main { flex: 1; display: grid; place-items: center; padding-block: 64px; position: relative; overflow: hidden; }
+      main::before {
+        content: ""; position: absolute; width: 720px; height: 720px; border-radius: 50%; top: -220px; left: 50%; transform: translateX(-50%);
+        background: radial-gradient(circle, color-mix(in srgb, var(--accent) 22%, transparent), transparent 65%);
+        pointer-events: none;
+      }
+      .card { position: relative; max-width: 640px; text-align: center; }
+
+      .check { width: 96px; height: 96px; margin: 0 auto 28px; }
+      .check circle { fill: var(--accent); }
+      .check path {
+        fill: none; stroke: #0f2a1a; stroke-width: 6; stroke-linecap: round; stroke-linejoin: round;
+        stroke-dasharray: 60; stroke-dashoffset: 60; animation: draw .55s .25s ease-out forwards;
+      }
+      .check { animation: pop .45s cubic-bezier(.2,1.4,.4,1) both; }
+      @keyframes draw { to { stroke-dashoffset: 0; } }
+      @keyframes pop { from { transform: scale(.6); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+      .eyebrow { font-size: 13px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--accent-soft); }
+      h1 { font-size: clamp(40px, 7vw, 68px); font-weight: 800; letter-spacing: -.02em; margin-block: 12px 18px; }
+      h1 em { font-style: normal; color: var(--accent); }
+      .lead { color: var(--muted); font-size: 19px; margin: 0 auto 28px; max-width: 46ch; }
+
+      .order {
+        display: none; margin: 0 auto 32px; padding: 10px 18px; border-radius: 999px; width: fit-content;
+        background: var(--surface); border: 1px solid var(--line); font-size: 15px; color: var(--muted);
+        font-variant-numeric: tabular-nums;
+      }
+      .order b { color: var(--gold); font-weight: 600; }
+      .order.show { display: block; }
+
+      .steps { list-style: none; padding: 0; margin: 0 0 36px; display: grid; gap: 12px; text-align: left; counter-reset: step; }
+      .steps li {
+        display: grid; grid-template-columns: 44px 1fr; gap: 14px; align-items: start;
+        padding: 16px 20px; background: var(--surface); border-radius: 16px; border-left: 4px solid var(--accent);
+      }
+      .steps li::before {
+        counter-increment: step; content: "0" counter(step);
+        font-family: var(--font-display); font-weight: 800; font-size: 24px; color: var(--accent); line-height: 1.2;
+      }
+      .steps h3 { font-size: 18px; margin-bottom: 2px; }
+      .steps p { margin: 0; color: var(--muted); font-size: 15px; }
+
+      .actions { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+      .btn {
+        display: inline-flex; align-items: center; gap: 8px; text-decoration: none; cursor: pointer;
+        font: 600 16px var(--font-body); padding: 13px 22px; border-radius: 999px; border: 1.5px solid transparent;
+        transition: transform .15s ease, background .15s ease, border-color .15s ease;
+      }
+      .btn:hover { transform: translateY(-2px); }
+      .btn-primary { background: var(--accent); color: #0f2a1a; }
+      .btn-primary:hover { background: var(--accent-soft); }
+      .btn-ghost { border-color: var(--line); color: var(--fg); }
+      .btn-ghost:hover { border-color: var(--accent); }
+
+      .help { margin-top: 28px; font-size: 15px; color: var(--muted); }
+      .help a { color: var(--accent-soft); }
+
+      footer { padding-block: 24px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; background: var(--bg-deep); }
+      footer .wrap { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+
+      @media (max-width: 520px) {
+        main { padding-block: 44px; }
+        .actions .btn { flex: 1 1 100%; justify-content: center; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .check, .check path { animation: none; stroke-dashoffset: 0; }
+        .btn:hover { transform: none; }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="nav">
+      <div class="wrap">
+        <a class="brand" href="../">
+          <img src="../logo.png" alt="" />
+          Linus Liew
+        </a>
+      </div>
+    </nav>
+
+    <main>
+      <div class="wrap card">
+        <svg class="check" viewBox="0 0 96 96" aria-hidden="true">
+          <circle cx="48" cy="48" r="48" />
+          <path d="M28 50 L42 63 L69 35" />
+        </svg>
+
+        <span class="eyebrow">Payment successful</span>
+        <h1>Thank you for <em>your purchase!</em></h1>
+        <p class="lead">Your order is confirmed. A receipt is on its way to your email, and I'll be in touch shortly to get things moving.</p>
+
+        <p class="order" id="order">Order reference <b id="order-id"></b></p>
+
+        <ol class="steps">
+          <li><div><h3>Check your inbox</h3><p>Your receipt and order details arrive within a few minutes. Check spam if you don't see it.</p></div></li>
+          <li><div><h3>I'll reach out</h3><p>Expect a message from me within 1 business day to confirm the details and next steps.</p></div></li>
+          <li><div><h3>We get building</h3><p>You get clear progress updates until everything is delivered.</p></div></li>
+        </ol>
+
+        <div class="actions">
+          <a class="btn btn-primary" href="../">Back to homepage</a>
+          <a class="btn btn-ghost" href="../#projects">Explore my apps</a>
+        </div>
+
+        <p class="help">Questions about your order? Email <a href="mailto:jlinuskl2@gmail.com">jlinuskl2@gmail.com</a></p>
+      </div>
+    </main>
+
+    <footer>
+      <div class="wrap">
+        <span>© <span id="year"></span> Linus Liew. All rights reserved.</span>
+        <span>Freelance developer · Python, PHP & Vue</span>
+      </div>
+    </footer>
+
+    <script>
+      document.getElementById('year').textContent = new Date().getFullYear();
+      // Show the order reference if the checkout redirect passes ?order=...
+      var orderId = new URLSearchParams(location.search).get('order');
+      if (orderId) {
+        document.getElementById('order-id').textContent = orderId;
+        document.getElementById('order').classList.add('show');
+      }
+    </script>
+  </body>
+</html>
